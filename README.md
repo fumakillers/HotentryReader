@@ -1,16 +1,14 @@
-# HotentryViewer
+# HotentryReader
 
-HotentryViewer は、はてなブックマークのホッテントリを快適に読むための Android アプリです。
+HotentryReader は、はてなブックマークのホッテントリを快適に閲覧するための Android アプリです。
 
-ログインやブックマーク機能は持たず、人気記事を眺める体験に絞ったシンプルな閲覧専用アプリとして開発しています。カテゴリごとのホッテントリを RSS から取得し、ダークテーマの縦リストで表示します。
+ログイン機能やブックマーク機能は持たず、人気記事を読む体験に絞った個人開発の閲覧専用アプリです。カテゴリごとのホッテントリを RSS から取得し、ダークテーマの縦リストで表示します。
 
 ## スクリーンショット
 
-画像は後で追加予定です。
-
-| ホーム | 設定 |
+| ホーム | ミュートワード設定 |
 | --- | --- |
-| Coming soon | Coming soon |
+| <img src="docs/images/home.png" alt="ホーム" width="320"> | <img src="docs/images/settings.png" alt="ミュートワード設定" width="320"> |
 
 ## 主な機能
 
@@ -45,32 +43,63 @@ HotentryViewer は、はてなブックマークのホッテントリを快適�
 
 ## インストール方法
 
-開発環境でビルドして実機へインストールする場合:
+### GitHub Releases から APK をダウンロードする
+
+通常利用する場合は、GitHub Releases から APK をダウンロードしてください。
+
+1. このリポジトリの `Releases` を開く
+2. 最新のリリースを選択する
+3. `Assets` から `HotentryReader-v0.1.0.apk` のような APK ファイルをダウンロードする
+4. Android 端末に APK を転送する
+5. APK を開いてインストールする
+
+Android 側で「提供元不明のアプリ」のインストール許可が必要になる場合があります。
+
+### 開発環境からビルドする
 
 ```powershell
 dotnet build HotentryReader.csproj -f net10.0-android
 ```
 
-APK を作成してインストールする場合:
+APK を作成して実機へインストールする場合:
 
 ```powershell
 dotnet build HotentryReader.csproj -f net10.0-android -p:EmbedAssembliesIntoApk=true
 adb install -r bin\Debug\net10.0-android\com.companyname.hotentryreader-Signed.apk
 ```
 
-## GitHub Releases から APK をダウンロードする
+## リリース運用
 
-配布版 APK は GitHub Releases に掲載予定です。
+HotentryReader は Git tag ベースで GitHub Releases を作成し、APK は Release の Assets として配布します。
 
-1. GitHub のリポジトリページを開く
-2. `Releases` を開く
-3. 最新リリースを選択する
-4. Assets から `.apk` ファイルをダウンロードする
-5. Android 端末に APK を転送してインストールする
+APK や AAB などのビルド成果物はリポジトリには含めません。
 
-Android 側で提供元不明のアプリのインストール許可が必要になる場合があります。
+### 初回リリース v0.1.0 の作成手順
+
+1. リリース用の変更を main ブランチに反映する
+2. Android APK をビルドする
+
+```powershell
+dotnet build HotentryReader.csproj -f net10.0-android -c Release -p:EmbedAssembliesIntoApk=true
+```
+
+3. 生成された APK を分かりやすい名前にリネームする
+
+```powershell
+Copy-Item bin\Release\net10.0-android\com.companyname.hotentryreader-Signed.apk HotentryReader-v0.1.0.apk
+```
+
+4. Git tag を作成して push する
+
+```powershell
+git tag -a v0.1.0 -m "HotentryReader v0.1.0"
+git push origin v0.1.0
+```
+
+5. GitHub の `Releases` から `v0.1.0` の Release を作成する
+6. Release Notes には [docs/releases/v0.1.0.md](docs/releases/v0.1.0.md) の内容を使用する
+7. `HotentryReader-v0.1.0.apk` を Release Assets に添付する
 
 ## ライセンス
 
 ライセンスは未定です。
-

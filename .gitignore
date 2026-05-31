@@ -362,5 +362,13 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+# Release artifacts
+*.apk
+*.aab
+
+# Release notes
+!docs/releases/
+!docs/releases/*.md
+
 # 自分用
 memo.txt
