@@ -366,6 +366,9 @@ FodyWeavers.xsd
 *.apk
 *.aab
 
+# Local tools
+.tools/
+
 # Release notes
 !docs/releases/
 !docs/releases/*.md
