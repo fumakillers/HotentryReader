@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HotentryReader.OptionsPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#101418">
+
+    <Grid RowDefinitions="Auto,*">
+        <Grid Grid.Row="0"
+              Padding="18,18,18,14"
+              ColumnDefinitions="Auto,*"
+              ColumnSpacing="14">
+            <Button Grid.Column="0"
+                    Text="&#x623B;&#x308B;"
+                    Clicked="OnBackClicked"
+                    BackgroundColor="#1B232B"
+                    TextColor="#D7DEE6"
+                    FontAttributes="Bold"
+                    Padding="12,7"
+                    MinimumHeightRequest="36"
+                    MinimumWidthRequest="56" />
+            <Label Grid.Column="1"
+                   Text="&#x8A2D;&#x5B9A;"
+                   FontAttributes="Bold"
+                   FontSize="24"
+                   TextColor="#F4F7FA"
+                   VerticalOptions="Center"
+                   SemanticProperties.HeadingLevel="Level1" />
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="18,8,18,28"
+                                 Spacing="16">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="&#x30DF;&#x30E5;&#x30FC;&#x30C8;&#x30EF;&#x30FC;&#x30C9;"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#F2F6FA" />
+
+                    <Border StrokeThickness="1"
+                            Stroke="#26313B"
+                            BackgroundColor="#151B21"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="14">
+                        <Grid RowDefinitions="Auto,Auto"
+                              RowSpacing="12">
+                            <Entry x:Name="MuteWordEntry"
+                                   Grid.Row="0"
+                                   Placeholder="&#x30DF;&#x30E5;&#x30FC;&#x30C8;&#x3059;&#x308B;&#x30EF;&#x30FC;&#x30C9;"
+                                   PlaceholderColor="#6D7884"
+                                   TextColor="#F2F6FA"
+                                   BackgroundColor="#101418" />
+
+                            <Grid Grid.Row="1"
+                                  ColumnDefinitions="Auto,*,Auto"
+                                  ColumnSpacing="10">
+                                <CheckBox x:Name="RegexCheckBox"
+                                          Grid.Column="0"
+                                          Color="#4AA3FF"
+                                          VerticalOptions="Center" />
+                                <Label Grid.Column="1"
+                                       Text="&#x6B63;&#x898F;&#x8868;&#x73FE;"
+                                       TextColor="#D7DEE6"
+                                       FontSize="14"
+                                       VerticalOptions="Center" />
+                                <Button Grid.Column="2"
+                                        Text="&#x8FFD;&#x52A0;"
+                                        Clicked="OnAddMuteWordClicked"
+                                        BackgroundColor="#0F5EA8"
+                                        TextColor="#FFFFFF"
+                                        FontAttributes="Bold"
+                                        Padding="14,8"
+                                        MinimumHeightRequest="38" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                    <CollectionView ItemsSource="{Binding MuteWords}"
+                                    SelectionMode="None">
+                        <CollectionView.EmptyView>
+                            <Border StrokeThickness="1"
+                                    Stroke="#26313B"
+                                    BackgroundColor="#151B21"
+                                    StrokeShape="RoundRectangle 8"
+                                    Padding="14">
+                                <Label Text="&#x307E;&#x3060;&#x8A2D;&#x5B9A;&#x3055;&#x308C;&#x3066;&#x3044;&#x307E;&#x305B;&#x3093;"
+                                       FontSize="14"
+                                       TextColor="#8C99A6" />
+                            </Border>
+                        </CollectionView.EmptyView>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0,6"
+                                      ColumnDefinitions="*,Auto"
+                                      ColumnSpacing="10">
+                                    <Border Grid.Column="0"
+                                            StrokeThickness="1"
+                                            Stroke="#26313B"
+                                            BackgroundColor="#151B21"
+                                            StrokeShape="RoundRectangle 8"
+                                            Padding="12">
+                                        <VerticalStackLayout Spacing="4">
+                                            <Label Text="{Binding Word}"
+                                                   TextColor="#F2F6FA"
+                                                   FontSize="15"
+                                                   FontAttributes="Bold"
+                                                   LineBreakMode="TailTruncation" />
+                                            <Label Text="{Binding TypeText}"
+                                                   TextColor="#8C99A6"
+                                                   FontSize="12" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                    <Button Grid.Column="1"
+                                            Text="&#x524A;&#x9664;"
+                                            Clicked="OnRemoveMuteWordClicked"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="#2A333D"
+                                            TextColor="#D7DEE6"
+                                            Padding="12,8"
+                                            MinimumHeightRequest="42"
+                                            VerticalOptions="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

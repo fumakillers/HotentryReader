@@ -4,10 +4,12 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:HotentryReader"
+    Shell.NavBarIsVisible="False"
     Title="HotentryReader">
 
     <ShellContent
-        Title="Home"
+        Title="&#x30DB;&#x30FC;&#x30E0;"
+        Shell.NavBarIsVisible="False"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 

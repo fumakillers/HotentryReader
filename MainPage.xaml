@@ -1,36 +1,176 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HotentryReader.MainPage">
+             x:Class="HotentryReader.MainPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#101418">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
-            <Image
-                Source="dotnet_bot.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a submarine number ten" />
+    <Grid RowDefinitions="Auto,Auto,*">
+        <VerticalStackLayout Grid.Row="0"
+                             Padding="16,14,10,10"
+                             Spacing="12">
+            <Grid ColumnDefinitions="*,Auto"
+                  ColumnSpacing="12">
+                <Label Grid.Column="0"
+                       Text="HotentryReader"
+                       FontAttributes="Bold"
+                       FontSize="22"
+                       TextColor="#F4F7FA"
+                       VerticalOptions="Center"
+                       SemanticProperties.HeadingLevel="Level1" />
+                <Button Grid.Column="1"
+                        Text="⚙"
+                        Clicked="OnOptionsClicked"
+                        BackgroundColor="Transparent"
+                        TextColor="#D7DEE6"
+                        FontSize="24"
+                        Padding="8,4"
+                        MinimumHeightRequest="40"
+                        MinimumWidthRequest="44" />
+            </Grid>
 
-            <Label
-                Text="Hello, World!"
-                Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
-
-            <Label
-                Text="Welcome to &#10;.NET Multi-platform App UI"
-                Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
-
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me" 
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Fill" />
+            <ScrollView x:Name="CategoryTabsScrollView"
+                        Orientation="Horizontal"
+                        HorizontalScrollBarVisibility="Never">
+                <HorizontalStackLayout x:Name="CategoryTabs"
+                                       Spacing="10"
+                                       BindableLayout.ItemsSource="{Binding Categories}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Border StrokeThickness="0"
+                                    BackgroundColor="{Binding BackgroundColor}"
+                                    Padding="16,8"
+                                    StrokeShape="RoundRectangle 18">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnCategoryTapped"
+                                                          CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                                <Label Text="{Binding Name}"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="{Binding TextColor}" />
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </HorizontalStackLayout>
+            </ScrollView>
         </VerticalStackLayout>
-    </ScrollView>
 
+        <BoxView Grid.Row="1"
+                 HeightRequest="1"
+                 Color="#202831" />
+
+        <CarouselView Grid.Row="2"
+                      x:Name="CategoryCarousel"
+                      ItemsSource="{Binding CategoryPages}"
+                      Position="{Binding SelectedCategoryIndex, Mode=TwoWay}"
+                      PositionChanged="OnCategoryCarouselPositionChanged"
+                      IsSwipeEnabled="True"
+                      Loop="False"
+                      BackgroundColor="#101418">
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <RefreshView Refreshing="OnRefreshRequested"
+                                 IsRefreshing="{Binding IsRefreshing}"
+                                 RefreshColor="#4AA3FF">
+                        <CollectionView ItemsSource="{Binding Entries}"
+                                        SelectionMode="None"
+                                        BackgroundColor="#101418">
+                            <CollectionView.EmptyView>
+                                <VerticalStackLayout Padding="24,60"
+                                                     Spacing="14"
+                                                     HorizontalOptions="Center">
+                                    <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                                       IsVisible="{Binding IsLoading}"
+                                                       Color="#4AA3FF" />
+                                    <Label Text="{Binding StatusMessage}"
+                                           TextColor="#8C99A6"
+                                           FontSize="14"
+                                           HorizontalTextAlignment="Center" />
+                                </VerticalStackLayout>
+                            </CollectionView.EmptyView>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="16,14"
+                                          ColumnDefinitions="*,92"
+                                          ColumnSpacing="14"
+                                          RowDefinitions="Auto,Auto,Auto"
+                                          Loaded="OnEntryItemLoaded">
+                                        <Label Grid.Row="0"
+                                               Grid.Column="0"
+                                               InputTransparent="True"
+                                               Text="{Binding Title}"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               LineBreakMode="TailTruncation"
+                                               MaxLines="3"
+                                               TextColor="#F2F6FA" />
+
+                                        <HorizontalStackLayout Grid.Row="1"
+                                                               Grid.Column="0"
+                                                               InputTransparent="True"
+                                                               Margin="0,8,0,0"
+                                                               Spacing="8">
+                                            <Label Text="{Binding BookmarkCountText}"
+                                                   FontSize="13"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#FFB547" />
+                                            <Label Text="{Binding Domain}"
+                                                   FontSize="13"
+                                                   LineBreakMode="TailTruncation"
+                                                   TextColor="#94A0AC" />
+                                        </HorizontalStackLayout>
+
+                                        <Label Grid.Row="2"
+                                               Grid.Column="0"
+                                               InputTransparent="True"
+                                               Margin="0,6,0,0"
+                                               Text="{Binding Summary}"
+                                               FontSize="13"
+                                               LineBreakMode="TailTruncation"
+                                               MaxLines="2"
+                                               TextColor="#7F8B96" />
+
+                                        <Border Grid.Row="0"
+                                                Grid.RowSpan="3"
+                                                Grid.Column="1"
+                                                InputTransparent="True"
+                                                HeightRequest="68"
+                                                WidthRequest="92"
+                                                BackgroundColor="#1B232B"
+                                                StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 8"
+                                                VerticalOptions="Start">
+                                            <Grid>
+                                                <Image Source="{Binding ThumbnailUrl}"
+                                                       InputTransparent="True"
+                                                       Aspect="AspectFill"
+                                                       IsVisible="{Binding HasThumbnail}" />
+                                                <Label Text="No Image"
+                                                       InputTransparent="True"
+                                                       FontSize="11"
+                                                       TextColor="#5E6A75"
+                                                       HorizontalTextAlignment="Center"
+                                                       VerticalTextAlignment="Center"
+                                                       IsVisible="{Binding HasNoThumbnail}" />
+                                            </Grid>
+                                        </Border>
+
+                                        <BoxView Grid.Row="2"
+                                                 Grid.ColumnSpan="2"
+                                                 InputTransparent="True"
+                                                 Margin="0,16,0,-14"
+                                                 HeightRequest="1"
+                                                 Color="#202831"
+                                                 VerticalOptions="End" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </RefreshView>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+    </Grid>
 </ContentPage>
