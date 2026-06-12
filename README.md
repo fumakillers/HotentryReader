@@ -1,3 +1,9 @@
+# 開発中止
+
+.net mauiコレクションのスワイプ関連が非常にアレで、色々とCodexにやってもらいましたが全く上手くいかないので中止。
+
+Javaのエコシステムに関わりたくなかったのですが、次はKotlinでHotentryReaderをやります。
+
 # HotentryReader
 
 HotentryReader は、はてなブックマークのホッテントリを快適に閲覧するための Android アプリです。
